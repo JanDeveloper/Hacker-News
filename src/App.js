@@ -1,26 +1,67 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import $ from 'jquery';
+//import customHistory from "./common/history";
+import NewsOne from './Components/NewsOne';
+import NewsTwo from './Components/NewsTwo';
+import NewsThree from './Components/NewsThree';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Route from 'react-router-dom/Route';
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+        items:[]
+    }
 }
+render(){
+    return (
+      <Router>
+        <div className="App">
+            <Route path="/" exact strict render={
+              () => {
+              return ( <NewsOne items={this.state.items} /> )
+              }
+            }/>
+            <Route path="/newstwo" exact strict render={
+              () => {
+                return ( <NewsTwo items={this.state.items} />)
+              }
+            }/>
+            <Route path="/newsthree" exact strict render={
+              () => {
+                return ( <NewsThree items={this.state.items} />)
+              }
+            }/>
+        </div>
+      </Router>
+    );
+}
+getNews(){
+    $.ajax({
+        url: 'https://api.hnpwa.com/v0/news/1.json',
+        dataType:'json',
+        cache: false,
+        success: function(data){
+            this.setState({items: data}, function(){
+                console.log(this.state);
+            });
+        }.bind(this),
+        error: function(xhr, status, err){
+            console.log(err);
+        }
+    });
+}
+
+componentWillMount(){
+    this.getNews();
+}
+
+componentDidMount(){
+    this.getNews();
+}
+}
+
 
 export default App;
