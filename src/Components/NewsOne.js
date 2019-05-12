@@ -5,6 +5,17 @@ import Link from 'react-router-dom/Link'
 
 let newItemOne
 class NewsOne extends Component {
+    constructor(){
+        super();
+        this.state = {
+            items:[],
+            refresh() {
+                setTimeout(function () {
+                    window.location.reload()
+                }, 30000);
+            }
+        }
+    }
     render(){
         let newItems;
         if(this.props.items){
@@ -17,6 +28,7 @@ class NewsOne extends Component {
         newItemOne = newItems.slice(0, 10);
         return (
             <div className="News">
+            {this.state.refresh()}
                 <div className="First">
                     <div className="header"><h3>Hacker News</h3></div>
                     {newItemOne}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
-//import customHistory from "./common/history";
 import NewsOne from './Components/NewsOne';
 import NewsTwo from './Components/NewsTwo';
 import NewsThree from './Components/NewsThree';
